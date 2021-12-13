@@ -1,9 +1,11 @@
 -- 생성자 Oracle SQL Developer Data Modeler 21.2.0.165.1515
---   위치:        2021-11-26 09:53:28 KST
+--   위치:        2021-12-13 10:58:30 KST
 --   사이트:      Oracle Database 11g
 --   유형:      Oracle Database 11g
 
 
+
+-- CREATE USER cafe IDENTIFIED BY ACCOUNT UNLOCK ;
 
 -- predefined type, no DDL - MDSYS.SDO_GEOMETRY
 
@@ -16,7 +18,9 @@ CREATE TABLE cafe.member (
     mem_tel     VARCHAR2(13 BYTE) NOT NULL,
     mem_email   VARCHAR2(50 BYTE) NOT NULL,
     mem_regdate DATE DEFAULT sysdate NOT NULL,
-    mem_level   NUMBER(1) DEFAULT 0 NOT NULL
+    mem_level   NUMBER(1) DEFAULT 0 NOT NULL,
+    mem_days    NUMBER(3) DEFAULT 0,
+    mem_post    NUMBER(3) DEFAULT 0
 )
 PCTFREE 10 PCTUSED 40 TABLESPACE users LOGGING
     STORAGE ( INITIAL 65536 NEXT 1048576 PCTINCREASE 0 MINEXTENTS 1 MAXEXTENTS 2147483645 FREELISTS 1 FREELIST GROUPS 1 BUFFER_POOL DEFAULT );
@@ -35,14 +39,17 @@ ALTER TABLE cafe.member
         USING INDEX cafe.member_pk;
 
 CREATE TABLE cafe.post (
-    post_no      NUMBER(5) NOT NULL,
-    post_writer  VARCHAR2(20 BYTE) NOT NULL,
-    post_title   VARCHAR2(50 BYTE) NOT NULL,
-    post_content VARCHAR2(1000 BYTE),
-    post_hit     NUMBER(5) DEFAULT 0 NOT NULL,
-    post_like    NUMBER(5) DEFAULT 0 NOT NULL,
-    post_regdate DATE DEFAULT sysdate NOT NULL,
-    post_moddate DATE
+    post_no          NUMBER(5) NOT NULL,
+    post_writer      VARCHAR2(20 BYTE) NOT NULL,
+    post_title       VARCHAR2(50 BYTE) NOT NULL,
+    post_content     VARCHAR2(1000 BYTE),
+    post_hit         NUMBER(5) DEFAULT 0 NOT NULL,
+    post_like        NUMBER(5) DEFAULT 0 NOT NULL,
+    post_regdate     DATE DEFAULT sysdate NOT NULL,
+    post_moddate     DATE,
+    file_name        VARCHAR2(100 BYTE),
+    stored_file_name VARCHAR2(100 BYTE),
+    file_size        NUMBER(6)
 )
 PCTFREE 10 PCTUSED 40 TABLESPACE users LOGGING
     STORAGE ( INITIAL 65536 NEXT 1048576 PCTINCREASE 0 MINEXTENTS 1 MAXEXTENTS 2147483645 FREELISTS 1 FREELIST GROUPS 1 BUFFER_POOL DEFAULT );
@@ -135,7 +142,7 @@ ALTER TABLE cafe.reply
 -- CREATE MATERIALIZED VIEW LOG             0
 -- CREATE SYNONYM                           0
 -- CREATE TABLESPACE                        0
--- CREATE USER                              0
+-- CREATE USER                              1
 -- 
 -- DROP TABLESPACE                          0
 -- DROP DATABASE                            0
